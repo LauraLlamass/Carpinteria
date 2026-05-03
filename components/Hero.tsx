@@ -28,7 +28,8 @@ export function Hero() {
               href="/proyectos"
               className={buttonVariants({
                 size: "lg",
-                className: "rounded-full px-6",
+                className:
+                  "rounded-full bg-primary px-6 !text-secondary hover:bg-accent hover:!text-background",
               })}
             >
               Ver obra
@@ -37,12 +38,12 @@ export function Hero() {
             <Link
               href="/contacto"
               className={buttonVariants({
-                variant: "outline",
                 size: "lg",
-                className: "rounded-full px-6",
+                className:
+                  "rounded-full bg-primary px-6 !text-secondary hover:bg-accent hover:!text-background",
               })}
             >
-              Hablar del proyecto
+              Pide tu presupuesto
             </Link>
           </div>
         </div>
@@ -63,11 +64,11 @@ export function Hero() {
                   className="object-cover"
                 />
               </div>
-              <div className="rounded-lg bg-primary p-5 text-primary-foreground">
+              <div className="rounded-lg bg-primary p-5 text-background">
                 <p className="font-serif text-2xl text-secondary">
                   Oficio y mito
                 </p>
-                <p className="mt-3 text-sm leading-6 text-primary-foreground/75">
+                <p className="mt-3 text-sm leading-6 text-background/75">
                   El laberinto como símbolo de espacios complejos convertidos
                   en soluciones precisas.
                 </p>
@@ -86,7 +87,7 @@ export function Hero() {
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="h-32 rounded-lg bg-card" />
+                <div className="h-32 rounded-lg bg-surface" />
                 <div className="h-32 rounded-lg bg-primary" />
               </div>
             </div>
