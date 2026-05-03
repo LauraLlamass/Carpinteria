@@ -33,7 +33,7 @@ export function SectionTitle({
         <p
           className={
             inverted
-              ? "mt-4 text-base leading-7 text-primary-foreground/70"
+              ? "mt-4 text-base leading-7 text-background/70"
               : "mt-4 text-base leading-7 text-muted-foreground"
           }
         >

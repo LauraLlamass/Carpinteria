@@ -3,19 +3,14 @@
 @theme {
   --color-background: #F7F3EC;
   --color-foreground: #2A2520;
-  --color-card: #ffffff;
+  --color-surface: #ffffff;
   --color-primary: #3F2A1D;
-  --color-primary-foreground: #F7F3EC;
   --color-secondary: #D8C4A4;
-  --color-secondary-foreground: #2A2520;
   --color-muted: #E8E1D6;
   --color-muted-foreground: #6B6258;
   --color-accent: #B86A3C;
-  --color-accent-foreground: #ffffff;
   --color-destructive: #b42318;
   --color-border: #D1C7B8;
-  --color-input: #D1C7B8;
-  --color-ring: #B86A3C;
   --font-sans: var(--font-geist-sans);
   --font-serif: var(--font-display);
   --radius-md: 0.5rem;
