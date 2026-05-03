@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { DaedalusMark } from "@/components/DaedalusMark";
-import { buttonVariants } from "@/components/ui/button";
 
 const navItems = [
   { href: "/", label: "Inicio" },
@@ -15,7 +14,7 @@ export function Navbar() {
     <header className="border-b border-border bg-background/95 text-foreground">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
         <Link href="/" className="flex items-center gap-3">
-          <span className="flex size-10 items-center justify-center rounded-full border border-primary/20 bg-primary text-primary-foreground">
+          <span className="flex size-10 items-center justify-center rounded-full border border-primary/20 bg-primary text-background">
             <DaedalusMark className="size-6" />
           </span>
           <span>
@@ -33,21 +32,11 @@ export function Navbar() {
             <Link
               key={item.href}
               href={item.href}
-              className="transition hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              className="rounded-full px-3 py-2 transition-colors duration-200 hover:bg-muted hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
             >
               {item.label}
             </Link>
           ))}
-
-          <Link
-            href="/contacto"
-            className={buttonVariants({
-              size: "sm",
-              className: "rounded-full px-4",
-            })}
-          >
-            Presupuesto
-          </Link>
         </div>
       </nav>
     </header>
