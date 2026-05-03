@@ -11,21 +11,21 @@ export type Project = {
 
 const projects: Project[] = [
   {
-    slug: "mesa-roble",
-    title: "Mesa de roble macizo",
-    description: "Mesa artesanal fabricada en roble con acabado natural.",
-    image: "/images/project-mesa-roble.svg",
-    imageAlt: "Mesa de roble macizo realizada en taller artesanal",
-    materials: ["Roble macizo", "Aceite natural", "Ensamble tradicional"],
+    slug: "piano-restaurado",
+    title: "Piano restaurado en madera noble",
+    description: "Restauración de un piano vertical integrado en un salón.",
+    image: "/images/project-mesa-roble.jpg",
+    imageAlt: "Piano restaurado en madera noble junto a plantas de interior",
+    materials: ["Madera noble", "Barniz satinado", "Restauración manual"],
     year: "2026",
     detail:
-      "Una pieza central para comedor, diseñada con proporciones sobrias, veta visible y un acabado natural pensado para el uso diario.",
+      "Una pieza con presencia doméstica, restaurada para recuperar brillo, protección y continuidad visual con el resto del espacio.",
   },
   {
     slug: "cocina",
     title: "Reforma de cocina",
     description: "Cocina completa con mobiliario a medida.",
-    image: "/images/project-cocina.svg",
+    image: "/images/project-cocina.jpg",
     imageAlt: "Cocina con muebles de carpintería a medida",
     materials: ["Madera lacada", "Nogal", "Herrajes ocultos"],
     year: "2026",
@@ -36,7 +36,7 @@ const projects: Project[] = [
     slug: "armario",
     title: "Armario empotrado",
     description: "Armario diseñado para maximizar el espacio.",
-    image: "/images/project-armario.svg",
+    image: "/images/project-armario.jpg",
     imageAlt: "Armario empotrado fabricado a medida",
     materials: ["Chapa natural", "Tablero técnico", "Herrajes ocultos"],
     year: "2025",

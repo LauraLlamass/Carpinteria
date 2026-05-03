@@ -20,7 +20,7 @@ const display = Playfair_Display({
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://carpinteria-los-artesanos.com";
-const siteName = "Carpintería Los Artesanos";
+const siteName = "Carpintería Las Artesanas";
 const siteDescription =
   "Carpintería artesanal a medida: muebles, restauración y proyectos en madera para espacios singulares.";
 
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/images/workshop-hero.svg",
+        url: "/images/workshop-hero.jpg",
         width: 1200,
         height: 630,
         alt: "Taller artesanal de carpintería a medida",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteName,
     description: siteDescription,
-    images: ["/images/workshop-hero.svg"],
+    images: ["/images/workshop-hero.jpg"],
   },
   robots: {
     index: true,

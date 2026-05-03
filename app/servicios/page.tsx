@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { FinalCta } from "@/components/FinalCta";
 import { SectionTitle } from "@/components/SectionTitle";
 import { ServiceGrid } from "@/components/ServiceGrid";
 import { CardGridSkeleton } from "@/components/Skeletons";
@@ -34,6 +35,11 @@ export default function ServicesPage() {
             <ServiceGrid />
           </Suspense>
         </div>
+
+        <FinalCta
+          title="¿Qué pieza necesita tu espacio?"
+          description="Desde un armario hasta una reforma completa, empezamos con medidas, uso diario y una propuesta clara de materiales."
+        />
       </div>
     </section>
   );
