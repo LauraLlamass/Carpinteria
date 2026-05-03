@@ -31,8 +31,8 @@ export default function Home() {
           <div className="flex items-start gap-4">
             <DaedalusMark className="mt-1 size-12 text-accent" />
             <SectionTitle
-              eyebrow="Servicios"
-              title="Piezas con carácter de taller"
+              eyebrow="Servicios destacados"
+              title="Muebles, restauración y estructura con carácter de taller"
               description="Una carpintería boutique no produce en serie: interpreta cada encargo como una pieza única."
             />
           </div>
@@ -74,8 +74,8 @@ export default function Home() {
       <section className="bg-background px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <SectionTitle
-            eyebrow="Obra reciente"
-            title="Proyectos destacados"
+            eyebrow="Proyectos recientes"
+            title="Resumen de obra destacada"
             description="Una muestra de espacios y piezas donde la madera actúa como arquitectura cercana."
           />
 
