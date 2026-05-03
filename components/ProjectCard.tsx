@@ -30,6 +30,7 @@ export function ProjectCard({
           src={image}
           alt={imageAlt}
           fill
+          quality={72}
           sizes="(min-width: 768px) 33vw, 100vw"
           placeholder="blur"
           blurDataURL={blurDataURL}

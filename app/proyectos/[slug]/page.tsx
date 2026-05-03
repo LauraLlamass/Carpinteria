@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DaedalusMark } from "@/components/DaedalusMark";
+import { FinalCta } from "@/components/FinalCta";
 import { getProjectBySlug, getProjectSlugs } from "@/data/projects";
 
 export const revalidate = 3600;
@@ -122,11 +123,17 @@ export default async function ProjectDetailPage({
               src={project.image}
               alt={project.imageAlt}
               fill
+              quality={84}
               sizes="(min-width: 768px) 52vw, 100vw"
               className="object-cover"
             />
           </div>
         </div>
+
+        <FinalCta
+          title="¿Quieres una solución con este nivel de detalle?"
+          description="Revisamos tu espacio, el uso diario y los materiales adecuados antes de preparar una primera valoración."
+        />
       </div>
     </article>
   );

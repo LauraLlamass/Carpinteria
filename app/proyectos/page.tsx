@@ -9,7 +9,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Proyectos",
   description:
-    "Galería de proyectos de carpintería a medida, cocinas, armarios y muebles artesanales.",
+    "Galería de proyectos de carpintería a medida, restauración, cocinas, armarios y muebles artesanales.",
   alternates: {
     canonical: "/proyectos",
   },
