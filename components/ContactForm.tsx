@@ -27,7 +27,7 @@ export function ContactForm() {
         <input
           id="name"
           name="name"
-          className="mt-2 w-full rounded-lg border border-input bg-background px-4 py-3 outline-none focus:ring-2 focus:ring-ring"
+          className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-3 outline-none focus:ring-2 focus:ring-accent"
           placeholder="Tu nombre"
         />
         {state.fieldErrors?.name ? (
@@ -44,7 +44,7 @@ export function ContactForm() {
         <input
           id="email"
           name="email"
-          className="mt-2 w-full rounded-lg border border-input bg-background px-4 py-3 outline-none focus:ring-2 focus:ring-ring"
+          className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-3 outline-none focus:ring-2 focus:ring-accent"
           placeholder="tu@email.com"
           type="email"
         />
@@ -65,7 +65,7 @@ export function ContactForm() {
         <textarea
           id="message"
           name="message"
-          className="mt-2 min-h-36 w-full rounded-lg border border-input bg-background px-4 py-3 outline-none focus:ring-2 focus:ring-ring"
+          className="mt-2 min-h-36 w-full rounded-lg border border-border bg-background px-4 py-3 outline-none focus:ring-2 focus:ring-accent"
           placeholder="Cuéntanos medidas, materiales, estancia y objetivo del proyecto."
         />
         {state.fieldErrors?.message ? (
@@ -79,7 +79,7 @@ export function ContactForm() {
         <p
           className={
             state.status === "success"
-              ? "rounded-lg bg-secondary px-4 py-3 text-sm text-secondary-foreground"
+              ? "rounded-lg bg-secondary px-4 py-3 text-sm text-foreground"
               : "rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive"
           }
         >

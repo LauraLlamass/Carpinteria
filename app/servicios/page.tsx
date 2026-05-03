@@ -1,11 +1,22 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { SectionTitle } from "@/components/SectionTitle";
 import { ServiceGrid } from "@/components/ServiceGrid";
 import { CardGridSkeleton } from "@/components/Skeletons";
 
-export const metadata = {
-  title: "Servicios | Carpintería Los Artesanos",
-  description: "Servicios de carpintería artesanal y mobiliario a medida.",
+export const metadata: Metadata = {
+  title: "Servicios",
+  description:
+    "Servicios de carpintería artesanal, mobiliario a medida, restauración y carpintería estructural.",
+  alternates: {
+    canonical: "/servicios",
+  },
+  openGraph: {
+    title: "Servicios de carpintería artesanal",
+    description:
+      "Diseño, fabricación y restauración de piezas de madera hechas a medida.",
+    url: "/servicios",
+  },
 };
 
 export default function ServicesPage() {

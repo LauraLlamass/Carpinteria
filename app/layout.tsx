@@ -7,16 +7,67 @@ import "./globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+  adjustFontFallback: true,
 });
 
 const display = Playfair_Display({
   variable: "--font-display",
   subsets: ["latin"],
+  display: "swap",
+  adjustFontFallback: true,
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://carpinteria-los-artesanos.com";
+const siteName = "Carpintería Los Artesanos";
+const siteDescription =
+  "Carpintería artesanal a medida: muebles, restauración y proyectos en madera para espacios singulares.";
+
 export const metadata: Metadata = {
-  title: "Carpintería Los Artesanos",
-  description: "Trabajos de carpintería a medida",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteName,
+    template: `%s | ${siteName}`,
+  },
+  description: siteDescription,
+  applicationName: siteName,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: siteName,
+    description: siteDescription,
+    url: "/",
+    siteName,
+    locale: "es_ES",
+    type: "website",
+    images: [
+      {
+        url: "/images/workshop-hero.svg",
+        width: 1200,
+        height: 630,
+        alt: "Taller artesanal de carpintería a medida",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteName,
+    description: siteDescription,
+    images: ["/images/workshop-hero.svg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export default function RootLayout({

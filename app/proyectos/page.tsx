@@ -1,13 +1,24 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { ProjectGrid } from "@/components/ProjectGrid";
 import { SectionTitle } from "@/components/SectionTitle";
 import { ProjectGridSkeleton } from "@/components/Skeletons";
 
 export const revalidate = 3600;
 
-export const metadata = {
-  title: "Proyectos | Carpintería Los Artesanos",
-  description: "Galería de proyectos de carpintería a medida.",
+export const metadata: Metadata = {
+  title: "Proyectos",
+  description:
+    "Galería de proyectos de carpintería a medida, cocinas, armarios y muebles artesanales.",
+  alternates: {
+    canonical: "/proyectos",
+  },
+  openGraph: {
+    title: "Proyectos de carpintería a medida",
+    description:
+      "Obra reciente de carpintería artesanal para espacios singulares.",
+    url: "/proyectos",
+  },
 };
 
 export default function ProjectsPage() {

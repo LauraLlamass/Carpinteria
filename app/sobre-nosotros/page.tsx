@@ -1,10 +1,29 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { DaedalusMark } from "@/components/DaedalusMark";
 import { SectionTitle } from "@/components/SectionTitle";
 
-export const metadata = {
-  title: "Taller | Carpintería Los Artesanos",
-  description: "Conoce el taller, el método de trabajo y la inspiración Dédalo.",
+export const metadata: Metadata = {
+  title: "Taller",
+  description:
+    "Conoce el taller, el método de trabajo y la inspiración Dédalo de Carpintería Los Artesanos.",
+  alternates: {
+    canonical: "/sobre-nosotros",
+  },
+  openGraph: {
+    title: "Taller de carpintería artesanal",
+    description:
+      "Un proceso de escucha, plano y materia para resolver proyectos de madera a medida.",
+    url: "/sobre-nosotros",
+    images: [
+      {
+        url: "/images/workshop-process.svg",
+        width: 1200,
+        height: 630,
+        alt: "Mesa de trabajo con plano de carpintería",
+      },
+    ],
+  },
 };
 
 export default function AboutPage() {
@@ -18,7 +37,7 @@ export default function AboutPage() {
             description="Trabajamos cada encargo desde la escucha, el plano y la materia. Dédalo inspira nuestra manera de pensar: técnica, imaginación y precisión al servicio del espacio."
           />
 
-          <div className="mt-10 flex items-center gap-4 rounded-lg border border-border bg-card p-6">
+          <div className="mt-10 flex items-center gap-4 rounded-lg border border-border bg-surface p-6">
             <DaedalusMark className="size-12 text-accent" />
             <p className="text-sm leading-6 text-muted-foreground">
               El símbolo del taller une alas y laberinto: construir soluciones

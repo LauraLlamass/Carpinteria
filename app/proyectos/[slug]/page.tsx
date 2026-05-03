@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -7,35 +8,64 @@ import { getProjectBySlug, getProjectSlugs } from "@/data/projects";
 export const revalidate = 3600;
 export const dynamicParams = false;
 
+type ProjectDetailParams = {
+  params: Promise<{ slug: string }>;
+};
+
 export async function generateStaticParams() {
   return getProjectSlugs();
 }
 
 export async function generateMetadata({
   params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+}: ProjectDetailParams): Promise<Metadata> {
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
 
   if (!project) {
     return {
       title: "Proyecto no encontrado",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
+  const url = `/proyectos/${project.slug}`;
+
   return {
-    title: `${project.title} | Carpintería Los Artesanos`,
+    title: project.title,
     description: project.description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: project.title,
+      description: project.description,
+      url,
+      type: "article",
+      images: [
+        {
+          url: project.image,
+          width: 1200,
+          height: 630,
+          alt: project.imageAlt,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description: project.description,
+      images: [project.image],
+    },
   };
 }
 
 export default async function ProjectDetailPage({
   params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+}: ProjectDetailParams) {
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
 
@@ -65,7 +95,7 @@ export default async function ProjectDetailPage({
               {project.detail}
             </p>
 
-            <div className="mt-10 rounded-lg border border-border bg-card p-6">
+            <div className="mt-10 rounded-lg border border-border bg-surface p-6">
               <div className="flex items-center gap-4">
                 <DaedalusMark className="size-12 text-accent" />
                 <p className="text-sm leading-6 text-muted-foreground">
@@ -78,7 +108,7 @@ export default async function ProjectDetailPage({
                 {project.materials.map((material) => (
                   <span
                     key={material}
-                    className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground"
+                    className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-foreground"
                   >
                     {material}
                   </span>
