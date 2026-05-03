@@ -58,6 +58,6 @@ export async function sendContactMessage(
   return {
     status: "success",
     message:
-      "Consulta recibida. Te responderemos con una primera valoración del proyecto.",
+      "Consulta recibida. En esta práctica el envío queda simulado correctamente.",
   };
 }
