@@ -15,7 +15,7 @@ export default function ErrorPage({
 
   return (
     <section className="bg-background px-6 py-24">
-      <div className="mx-auto max-w-2xl rounded-lg border border-border bg-card p-8 text-center">
+      <div className="mx-auto max-w-2xl rounded-lg border border-border bg-surface p-8 text-center">
         <p className="text-sm font-semibold uppercase tracking-[0.24em] text-accent">
           Error del taller
         </p>
@@ -29,7 +29,7 @@ export default function ErrorPage({
         <button
           type="button"
           onClick={() => unstable_retry()}
-          className="mt-8 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-accent"
+          className="mt-8 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-background transition hover:bg-accent"
         >
           Reintentar
         </button>

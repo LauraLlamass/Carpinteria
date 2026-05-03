@@ -1,9 +1,20 @@
+import type { Metadata } from "next";
 import { ContactForm } from "@/components/ContactForm";
 import { SectionTitle } from "@/components/SectionTitle";
 
-export const metadata = {
-  title: "Contacto | Carpintería Los Artesanos",
-  description: "Solicita presupuesto para tu proyecto de carpintería.",
+export const metadata: Metadata = {
+  title: "Contacto",
+  description:
+    "Solicita presupuesto para tu proyecto de carpintería a medida y recibe una primera valoración del taller.",
+  alternates: {
+    canonical: "/contacto",
+  },
+  openGraph: {
+    title: "Contacto para proyectos de carpintería",
+    description:
+      "Comparte medidas, materiales e idea inicial para valorar tu proyecto a medida.",
+    url: "/contacto",
+  },
 };
 
 export default function ContactPage() {
@@ -16,7 +27,7 @@ export default function ContactPage() {
           description="Comparte medidas, idea inicial y necesidades. Te responderemos con una primera valoración del proyecto."
         />
 
-        <div className="rounded-lg border border-border bg-card p-6">
+        <div className="rounded-lg border border-border bg-surface p-6">
           <ContactForm />
         </div>
       </div>

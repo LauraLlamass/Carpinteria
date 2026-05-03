@@ -2,6 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { DaedalusMark } from "@/components/DaedalusMark";
 
+const blurDataURL =
+  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTIwMCcgaGVpZ2h0PSc2MzAnIHZpZXdCb3g9JzAgMCAxMjAwIDYzMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48cmVjdCB3aWR0aD0nMTIwMCcgaGVpZ2h0PSc2MzAnIGZpbGw9JyNENEM0QTQnLz48cmVjdCB4PScxNTAnIHk9JzExMCcgd2lkdGg9JzkwMCcgaGVpZ2h0PSc0MTAnIHJ4PScyNCcgZmlsbD0nI0Y3RjNFQycgZmlsbC1vcGFjaXR5PScuNTUnLz48L3N2Zz4=";
+
 type ProjectCardProps = {
   title: string;
   description: string;
@@ -20,7 +23,7 @@ export function ProjectCard({
   return (
     <Link
       href={`/proyectos/${slug}`}
-      className="group block rounded-lg border border-border bg-card p-4 transition hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      className="group block rounded-lg border border-border bg-surface p-4 transition hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
     >
       <div className="relative mb-5 h-56 overflow-hidden rounded-lg bg-secondary">
         <Image
@@ -28,6 +31,8 @@ export function ProjectCard({
           alt={imageAlt}
           fill
           sizes="(min-width: 768px) 33vw, 100vw"
+          placeholder="blur"
+          blurDataURL={blurDataURL}
           className="object-cover transition duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-4 text-primary">
