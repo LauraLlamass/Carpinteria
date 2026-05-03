@@ -16,7 +16,7 @@ const display = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "Carpintería Los Artesanos",
-  description: "Trabajos de Carpintería a medida",
+  description: "Trabajos de carpintería a medida",
 };
 
 export default function RootLayout({

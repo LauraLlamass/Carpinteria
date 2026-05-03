@@ -1,6 +1,7 @@
+import { Suspense } from "react";
 import { SectionTitle } from "@/components/SectionTitle";
-import { ServiceCard } from "@/components/ServiceCard";
-import { services } from "@/data/services";
+import { ServiceGrid } from "@/components/ServiceGrid";
+import { CardGridSkeleton } from "@/components/Skeletons";
 
 export const metadata = {
   title: "Servicios | Carpintería Los Artesanos",
@@ -17,15 +18,10 @@ export default function ServicesPage() {
           description="Diseño, fabricación y restauración con criterios de taller boutique."
         />
 
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {services.map((service, index) => (
-            <ServiceCard
-              key={service.title}
-              index={index + 1}
-              title={service.title}
-              description={service.description}
-            />
-          ))}
+        <div className="mt-10">
+          <Suspense fallback={<CardGridSkeleton />}>
+            <ServiceGrid />
+          </Suspense>
         </div>
       </div>
     </section>

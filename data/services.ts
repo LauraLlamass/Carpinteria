@@ -1,4 +1,4 @@
-export const services = [
+const services = [
   {
     title: "Muebles a medida",
     description:
@@ -15,3 +15,7 @@ export const services = [
       "Trabajos en madera para estructuras, reformas y espacios completos.",
   },
 ];
+
+export async function getServices() {
+  return services;
+}

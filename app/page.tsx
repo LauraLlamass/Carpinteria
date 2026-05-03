@@ -1,10 +1,10 @@
+import { Suspense } from "react";
 import { DaedalusMark } from "@/components/DaedalusMark";
 import { Hero } from "@/components/Hero";
-import { ProjectCard } from "@/components/ProjectCard";
+import { ProjectGrid } from "@/components/ProjectGrid";
 import { SectionTitle } from "@/components/SectionTitle";
-import { ServiceCard } from "@/components/ServiceCard";
-import { projects } from "@/data/projects";
-import { services } from "@/data/services";
+import { ServiceGrid } from "@/components/ServiceGrid";
+import { CardGridSkeleton, ProjectGridSkeleton } from "@/components/Skeletons";
 
 const process = [
   {
@@ -37,16 +37,9 @@ export default function Home() {
             />
           </div>
 
-          <div className="grid gap-5 md:grid-cols-3">
-            {services.map((service, index) => (
-              <ServiceCard
-                key={service.title}
-                index={index + 1}
-                title={service.title}
-                description={service.description}
-              />
-            ))}
-          </div>
+          <Suspense fallback={<CardGridSkeleton />}>
+            <ServiceGrid />
+          </Suspense>
         </div>
       </section>
 
@@ -86,17 +79,10 @@ export default function Home() {
             description="Una muestra de espacios y piezas donde la madera actúa como arquitectura cercana."
           />
 
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {projects.map((project) => (
-              <ProjectCard
-                key={project.slug}
-                title={project.title}
-                description={project.description}
-                slug={project.slug}
-                image={project.image}
-                imageAlt={project.imageAlt}
-              />
-            ))}
+          <div className="mt-10">
+            <Suspense fallback={<ProjectGridSkeleton />}>
+              <ProjectGrid featured />
+            </Suspense>
           </div>
         </div>
       </section>

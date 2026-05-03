@@ -20,7 +20,7 @@ export function Navbar() {
           </span>
           <span>
             <span className="block font-serif text-2xl font-semibold leading-none text-primary">
-              {"Carpintería Los Artesanos"}
+              Carpintería Los Artesanos
             </span>
             <span className="mt-1 block text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-accent">
               Atelier Dédalo

@@ -2,15 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DaedalusMark } from "@/components/DaedalusMark";
-import { getProjectBySlug, projects } from "@/data/projects";
+import { getProjectBySlug, getProjectSlugs } from "@/data/projects";
 
 export const revalidate = 3600;
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return projects.map((project) => ({
-    slug: project.slug,
-  }));
+export async function generateStaticParams() {
+  return getProjectSlugs();
 }
 
 export async function generateMetadata({
@@ -19,7 +17,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     return {
@@ -39,7 +37,7 @@ export default async function ProjectDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     notFound();
@@ -58,7 +56,7 @@ export default async function ProjectDetailPage({
         <div className="mt-8 grid gap-10 md:grid-cols-[0.9fr_1.1fr]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-muted-foreground">
-              {project.year} · {project.material}
+              {project.year} · {project.materials.join(", ")}
             </p>
             <h1 className="mt-5 font-serif text-5xl font-semibold leading-tight text-primary">
               {project.title}
@@ -67,11 +65,25 @@ export default async function ProjectDetailPage({
               {project.detail}
             </p>
 
-            <div className="mt-10 flex items-center gap-4 rounded-lg border border-border bg-card p-6">
-              <DaedalusMark className="size-12 text-accent" />
-              <p className="text-sm leading-6 text-muted-foreground">
-                Proyecto resuelto con el método Dédalo: lectura del espacio, precisión de taller y acabado duradero.
-              </p>
+            <div className="mt-10 rounded-lg border border-border bg-card p-6">
+              <div className="flex items-center gap-4">
+                <DaedalusMark className="size-12 text-accent" />
+                <p className="text-sm leading-6 text-muted-foreground">
+                  Proyecto resuelto con el método Dédalo: lectura del espacio,
+                  precisión de taller y acabado duradero.
+                </p>
+              </div>
+
+              <div className="mt-6 flex flex-wrap gap-2">
+                {project.materials.map((material) => (
+                  <span
+                    key={material}
+                    className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground"
+                  >
+                    {material}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
 

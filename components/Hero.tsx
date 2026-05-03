@@ -18,7 +18,8 @@ export function Hero() {
             </h1>
 
             <p className="mt-7 max-w-xl text-base leading-8 text-muted-foreground md:text-lg">
-              {"Diseñamos mobiliario, cocinas y espacios singulares con la precisión de un plano antiguo y la calidez de un taller vivo."}
+              Diseñamos mobiliario, cocinas y espacios singulares con la
+              precisión de un plano antiguo y la calidez de un taller vivo.
             </p>
           </div>
 
@@ -67,7 +68,8 @@ export function Hero() {
                   Oficio y mito
                 </p>
                 <p className="mt-3 text-sm leading-6 text-primary-foreground/75">
-                  El laberinto como símbolo de espacios complejos convertidos en soluciones precisas.
+                  El laberinto como símbolo de espacios complejos convertidos
+                  en soluciones precisas.
                 </p>
               </div>
             </div>

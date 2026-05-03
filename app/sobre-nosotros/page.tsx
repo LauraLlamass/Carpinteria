@@ -21,7 +21,8 @@ export default function AboutPage() {
           <div className="mt-10 flex items-center gap-4 rounded-lg border border-border bg-card p-6">
             <DaedalusMark className="size-12 text-accent" />
             <p className="text-sm leading-6 text-muted-foreground">
-              El símbolo del taller une alas y laberinto: construir soluciones que eleven la vida cotidiana.
+              El símbolo del taller une alas y laberinto: construir soluciones
+              que eleven la vida cotidiana.
             </p>
           </div>
         </div>
