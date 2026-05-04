@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { DaedalusMark } from "@/components/DaedalusMark";
+import { LogoMark } from "@/components/LogoMark";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -32,8 +32,8 @@ export function Navbar() {
             className="flex items-center gap-3"
             onClick={() => setIsMenuOpen(false)}
           >
-            <span className="flex size-10 items-center justify-center rounded-full border border-primary/20 bg-primary text-background">
-              <DaedalusMark className="size-6" />
+            <span className="flex size-10 items-center justify-center overflow-hidden rounded-full border border-primary/20 bg-primary">
+              <LogoMark variant="light" className="size-8" priority />
             </span>
             <span>
               <span className="block font-serif text-2xl font-semibold leading-none text-primary">

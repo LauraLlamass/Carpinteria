@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import { DaedalusMark } from "@/components/DaedalusMark";
 import { Hero } from "@/components/Hero";
+import { LogoMark } from "@/components/LogoMark";
 import { ProjectGrid } from "@/components/ProjectGrid";
 import { SectionTitle } from "@/components/SectionTitle";
 import { ServiceGrid } from "@/components/ServiceGrid";
@@ -29,7 +29,7 @@ export default function Home() {
       <section className="bg-background px-6 py-20">
         <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-[0.8fr_1.2fr]">
           <div className="flex items-start gap-4">
-            <DaedalusMark className="mt-1 size-12 text-accent" />
+            <LogoMark className="mt-1 size-12" />
             <SectionTitle
               eyebrow="Servicios destacados"
               title="Muebles, restauración y estructura con carácter de taller"
@@ -58,7 +58,7 @@ export default function Home() {
                 key={step.title}
                 className="rounded-lg border border-background/15 p-6"
               >
-                <DaedalusMark className="size-10 text-secondary" />
+                <LogoMark variant="light" className="size-10" />
                 <h3 className="mt-8 font-serif text-2xl text-secondary">
                   {step.title}
                 </h3>

@@ -49,7 +49,7 @@ export default function AboutPage() {
               <p>
                 Nuestra historia empezó hace cinco años, cuando decidimos
                 alquilar un pequeño local para probar una intuición que
-                llevábamos tiempo compartiendo. Somos Clara y Marina, amigas
+                llevábamos tiempo compartiendo. Somos Ana y Marina, amigas
                 desde la escuela de diseño. Una venía del mundo de la
                 restauración de piezas antiguas; la otra, del diseño de
                 interiores y la planificación de espacios. Las dos sentíamos que

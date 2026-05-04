@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { DaedalusMark } from "@/components/DaedalusMark";
+import { LogoMark } from "@/components/LogoMark";
 
 const blurDataURL =
   "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTIwMCcgaGVpZ2h0PSc2MzAnIHZpZXdCb3g9JzAgMCAxMjAwIDYzMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48cmVjdCB3aWR0aD0nMTIwMCcgaGVpZ2h0PSc2MzAnIGZpbGw9JyNENEM0QTQnLz48cmVjdCB4PScxNTAnIHk9JzExMCcgd2lkdGg9JzkwMCcgaGVpZ2h0PSc0MTAnIHJ4PScyNCcgZmlsbD0nI0Y3RjNFQycgZmlsbC1vcGFjaXR5PScuNTUnLz48L3N2Zz4=";
@@ -40,7 +40,7 @@ export function ProjectCard({
           <span className="rounded bg-background px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em]">
             Obra
           </span>
-          <DaedalusMark className="size-10 opacity-70" />
+          <LogoMark className="size-10 opacity-70" />
         </div>
       </div>
 

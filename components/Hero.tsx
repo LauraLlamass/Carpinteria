@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { DaedalusMark } from "@/components/DaedalusMark";
+import { LogoMark } from "@/components/LogoMark";
 import { buttonVariants } from "@/components/ui/button";
 
 export function Hero() {
@@ -58,7 +58,7 @@ export function Hero() {
           />
 
           <div className="absolute right-6 top-6 z-10 rounded-full border border-primary/20 bg-background/85 p-5 text-primary">
-            <DaedalusMark className="size-16" />
+            <LogoMark className="size-16" />
           </div>
 
           <div className="absolute bottom-6 left-6 right-6 grid gap-4 md:grid-cols-[0.75fr_1fr]">

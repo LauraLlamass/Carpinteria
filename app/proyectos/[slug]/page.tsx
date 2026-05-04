@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { DaedalusMark } from "@/components/DaedalusMark";
 import { FinalCta } from "@/components/FinalCta";
+import { LogoMark } from "@/components/LogoMark";
 import { getProjectBySlug, getProjectSlugs } from "@/data/projects";
 
 export const revalidate = 3600;
@@ -98,7 +98,7 @@ export default async function ProjectDetailPage({
 
             <div className="mt-10 rounded-lg border border-border bg-surface p-6">
               <div className="flex items-center gap-4">
-                <DaedalusMark className="size-12 text-accent" />
+                <LogoMark className="size-12" />
                 <p className="text-sm leading-6 text-muted-foreground">
                   Proyecto resuelto con el método Dédalo: lectura del espacio,
                   precisión de taller y acabado duradero.
