@@ -12,7 +12,7 @@ const navItems = [
   { href: "/servicios", label: "Servicios" },
   { href: "/sobre-nosotros", label: "Taller" },
   { href: "/proyectos", label: "Obra" },
-  { href: "/contacto", label: "Contacto" },
+  { href: "/mensajes", label: "Mensajes" },
 ];
 
 function isActivePath(pathname: string, href: string) {
@@ -24,7 +24,7 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="border-b border-border bg-background/95 text-foreground">
+    <header className="border-b border-background bg-surface text-primary">
       <nav className="mx-auto max-w-6xl px-6 py-5">
         <div className="flex items-center justify-between">
           <Link
@@ -32,7 +32,7 @@ export function Navbar() {
             className="flex items-center gap-3"
             onClick={() => setIsMenuOpen(false)}
           >
-            <span className="flex size-10 items-center justify-center overflow-hidden rounded-full border border-primary/20 bg-primary">
+            <span className="flex size-10 items-center justify-center overflow-hidden rounded-full border border-primary bg-primary">
               <LogoMark variant="light" className="size-8" priority />
             </span>
             <span>
@@ -55,8 +55,8 @@ export function Navbar() {
                   href={item.href}
                   aria-current={isActive ? "page" : undefined}
                   className={cn(
-                    "rounded-full px-3 py-2 transition-colors duration-200 hover:bg-muted hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
-                    isActive && "bg-muted text-accent",
+                    "rounded-full px-3 py-2 transition-colors duration-200 hover:bg-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
+                    isActive && "bg-secondary text-primary",
                   )}
                 >
                   {item.label}
@@ -70,14 +70,14 @@ export function Navbar() {
             aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={isMenuOpen}
             onClick={() => setIsMenuOpen((current) => !current)}
-            className="rounded-full border border-border bg-background p-2 text-primary transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 md:hidden"
+            className="rounded-full border border-background bg-surface p-2 text-primary transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 md:hidden"
           >
             {isMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
         </div>
 
         {isMenuOpen ? (
-          <div className="mt-5 grid gap-2 border-t border-border pt-5 text-sm font-medium md:hidden">
+          <div className="mt-5 grid gap-2 border-t border-background pt-5 text-sm font-medium md:hidden">
             {navItems.map((item) => {
               const isActive = isActivePath(pathname, item.href);
 
@@ -88,8 +88,8 @@ export function Navbar() {
                   aria-current={isActive ? "page" : undefined}
                   onClick={() => setIsMenuOpen(false)}
                   className={cn(
-                    "rounded-lg px-3 py-3 transition-colors hover:bg-muted hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
-                    isActive && "bg-muted text-accent",
+                    "rounded-lg px-3 py-3 transition-colors hover:bg-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+                    isActive && "bg-secondary text-primary",
                   )}
                 >
                   {item.label}

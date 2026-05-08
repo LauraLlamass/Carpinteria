@@ -21,35 +21,35 @@ export function ContactForm() {
   return (
     <form action={formAction} className="grid gap-4">
       <div>
-        <label className="text-sm font-medium text-foreground" htmlFor="name">
+        <label className="text-sm font-medium text-primary" htmlFor="name">
           Nombre
         </label>
         <input
           id="name"
           name="name"
-          className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-3 outline-none focus:ring-2 focus:ring-accent"
+          className="mt-2 w-full rounded-lg border border-background bg-background px-4 py-3 text-primary outline-none focus:ring-2 focus:ring-accent"
           placeholder="Tu nombre"
         />
         {state.fieldErrors?.name ? (
-          <p className="mt-2 text-sm text-destructive">
+          <p className="mt-2 text-sm text-accent">
             {state.fieldErrors.name}
           </p>
         ) : null}
       </div>
 
       <div>
-        <label className="text-sm font-medium text-foreground" htmlFor="email">
+        <label className="text-sm font-medium text-primary" htmlFor="email">
           Email
         </label>
         <input
           id="email"
           name="email"
-          className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-3 outline-none focus:ring-2 focus:ring-accent"
+          className="mt-2 w-full rounded-lg border border-background bg-background px-4 py-3 text-primary outline-none focus:ring-2 focus:ring-accent"
           placeholder="tu@email.com"
           type="email"
         />
         {state.fieldErrors?.email ? (
-          <p className="mt-2 text-sm text-destructive">
+          <p className="mt-2 text-sm text-accent">
             {state.fieldErrors.email}
           </p>
         ) : null}
@@ -57,7 +57,7 @@ export function ContactForm() {
 
       <div>
         <label
-          className="text-sm font-medium text-foreground"
+          className="text-sm font-medium text-primary"
           htmlFor="message"
         >
           Proyecto
@@ -65,11 +65,11 @@ export function ContactForm() {
         <textarea
           id="message"
           name="message"
-          className="mt-2 min-h-36 w-full rounded-lg border border-border bg-background px-4 py-3 outline-none focus:ring-2 focus:ring-accent"
+          className="mt-2 min-h-36 w-full rounded-lg border border-background bg-background px-4 py-3 text-primary outline-none focus:ring-2 focus:ring-accent"
           placeholder="Cuéntanos medidas, materiales, estancia y objetivo del proyecto."
         />
         {state.fieldErrors?.message ? (
-          <p className="mt-2 text-sm text-destructive">
+          <p className="mt-2 text-sm text-accent">
             {state.fieldErrors.message}
           </p>
         ) : null}
@@ -79,8 +79,8 @@ export function ContactForm() {
         <p
           className={
             state.status === "success"
-              ? "rounded-lg bg-secondary px-4 py-3 text-sm text-foreground"
-              : "rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive"
+              ? "rounded-lg bg-secondary px-4 py-3 text-sm text-primary"
+              : "rounded-lg bg-accent px-4 py-3 text-sm text-surface"
           }
         >
           {state.message}

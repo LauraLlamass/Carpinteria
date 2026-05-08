@@ -45,7 +45,7 @@ export default function AboutPage() {
               description="Carpintería Las Artesanas nació de una conversación sencilla: si los muebles acompañan nuestra vida diaria, deberían pensarse con la misma atención con la que se diseña una casa."
             />
 
-            <div className="mt-10 space-y-5 text-base leading-8 text-muted-foreground">
+            <div className="mt-10 space-y-5 text-base leading-8 text-primary">
               <p>
                 Nuestra historia empezó hace cinco años, cuando decidimos
                 alquilar un pequeño local para probar una intuición que
@@ -81,7 +81,7 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="relative min-h-[520px] overflow-hidden rounded-lg border border-border bg-secondary">
+          <div className="relative min-h-[520px] overflow-hidden rounded-lg border border-background bg-secondary">
             <Image
               src="/images/workshop-process.jpg"
               alt="Mesa de trabajo con plano de carpintería"
@@ -93,7 +93,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <div className="mt-14 rounded-lg border border-border bg-surface p-6 md:p-8">
+        <div className="mt-14 rounded-lg border border-background bg-surface p-6 md:p-8">
           <h2 className="font-serif text-3xl font-semibold text-primary">
             Proceso artesanal
           </h2>
@@ -109,7 +109,7 @@ export default function AboutPage() {
             {milestones.map((milestone) => (
               <p
                 key={milestone}
-                className="rounded-lg bg-muted px-4 py-3 text-sm text-foreground"
+                className="rounded-lg bg-background px-4 py-3 text-sm text-primary"
               >
                 {milestone}
               </p>

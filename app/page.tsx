@@ -43,7 +43,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-primary px-6 py-20 text-background">
+      <section className="bg-primary px-6 py-20 text-surface">
         <div className="mx-auto max-w-6xl">
           <SectionTitle
             inverted
@@ -56,13 +56,13 @@ export default function Home() {
             {process.map((step) => (
               <article
                 key={step.title}
-                className="rounded-lg border border-background/15 p-6"
+                className="rounded-lg border border-background p-6"
               >
                 <LogoMark variant="light" className="size-10" />
                 <h3 className="mt-8 font-serif text-2xl text-secondary">
                   {step.title}
                 </h3>
-                <p className="mt-4 text-sm leading-6 text-background/70">
+                <p className="mt-4 text-sm leading-6 text-surface">
                   {step.description}
                 </p>
               </article>

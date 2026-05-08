@@ -92,11 +92,11 @@ export default async function ProjectDetailPage({
             <h1 className="mt-5 font-serif text-5xl font-semibold leading-tight text-primary">
               {project.title}
             </h1>
-            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+            <p className="mt-6 text-lg leading-8 text-primary">
               {project.detail}
             </p>
 
-            <div className="mt-10 rounded-lg border border-border bg-surface p-6">
+            <div className="mt-10 rounded-lg border border-background bg-surface p-6">
               <div className="flex items-center gap-4">
                 <LogoMark className="size-12" />
                 <p className="text-sm leading-6 text-muted-foreground">
@@ -109,7 +109,7 @@ export default async function ProjectDetailPage({
                 {project.materials.map((material) => (
                   <span
                     key={material}
-                    className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-foreground"
+                    className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-primary"
                   >
                     {material}
                   </span>
@@ -118,7 +118,7 @@ export default async function ProjectDetailPage({
             </div>
           </div>
 
-          <div className="relative min-h-[520px] overflow-hidden rounded-lg border border-border bg-secondary">
+          <div className="relative min-h-[520px] overflow-hidden rounded-lg border border-background bg-secondary">
             <Image
               src={project.image}
               alt={project.imageAlt}

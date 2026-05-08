@@ -6,7 +6,7 @@ type ServiceCardProps = {
 
 export function ServiceCard({ index, title, description }: ServiceCardProps) {
   return (
-    <article className="rounded-lg border border-border bg-surface p-6 transition hover:-translate-y-1">
+    <article className="rounded-lg border border-background bg-surface p-6 transition hover:-translate-y-1">
       <span className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">
         {String(index).padStart(2, "0")}
       </span>
