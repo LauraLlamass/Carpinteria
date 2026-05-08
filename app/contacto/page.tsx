@@ -1,18 +1,17 @@
 import type { Metadata } from "next";
-import { ContactForm } from "@/components/ContactForm";
-import { SectionTitle } from "@/components/SectionTitle";
+import { MessageCenter } from "@/components/MessageCenter";
 
 export const metadata: Metadata = {
   title: "Contacto",
   description:
-    "Solicita presupuesto para tu proyecto de carpintería a medida y recibe una primera valoración del taller.",
+    "Solicita presupuesto para tu proyecto de carpinteria a medida desde el apartado de mensajes de la web.",
   alternates: {
     canonical: "/contacto",
   },
   openGraph: {
-    title: "Contacto para proyectos de carpintería",
+    title: "Contacto para proyectos de carpinteria",
     description:
-      "Comparte medidas, materiales e idea inicial para valorar tu proyecto a medida.",
+      "Comparte medidas, materiales e idea inicial en una conversacion interna con copia opcional por email.",
     url: "/contacto",
   },
 };
@@ -20,20 +19,8 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <section className="bg-background px-6 py-20">
-      <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[0.85fr_1.15fr]">
-        <div>
-          <SectionTitle
-            eyebrow="Contacto"
-            title="Cuéntanos el laberinto que quieres resolver"
-            description="Comparte medidas, idea inicial y necesidades. Te responderemos con una primera valoración del proyecto."
-          />
-
-        
-        </div>
-
-        <div className="rounded-lg border border-border bg-surface p-6">
-          <ContactForm />
-        </div>
+      <div className="mx-auto max-w-6xl">
+        <MessageCenter />
       </div>
     </section>
   );
