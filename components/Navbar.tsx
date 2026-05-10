@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { AuthButton } from "@/components/AuthButton";
 import { LogoMark } from "@/components/LogoMark";
 import { cn } from "@/lib/utils";
 
@@ -63,6 +64,7 @@ export function Navbar() {
                 </Link>
               );
             })}
+            <AuthButton />
           </div>
 
           <button
@@ -96,6 +98,10 @@ export function Navbar() {
                 </Link>
               );
             })}
+            <AuthButton
+              onAction={() => setIsMenuOpen(false)}
+              className="rounded-lg px-3 py-3 text-left"
+            />
           </div>
         ) : null}
       </nav>

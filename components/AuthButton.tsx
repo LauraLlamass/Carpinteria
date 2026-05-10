@@ -1,0 +1,46 @@
+"use client";
+
+import { signIn, signOut, useSession } from "next-auth/react";
+
+import { cn } from "@/lib/utils";
+
+type AuthButtonProps = {
+  className?: string;
+  onAction?: () => void;
+};
+
+export function AuthButton({ className, onAction }: AuthButtonProps) {
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return (
+      <span className={cn("px-3 py-2 text-sm text-primary/70", className)}>
+        Cargando...
+      </span>
+    );
+  }
+
+  const handleClick = () => {
+    onAction?.();
+
+    if (session) {
+      void signOut();
+      return;
+    }
+
+    void signIn("google");
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      className={cn(
+        "rounded-full px-3 py-2 text-sm font-medium transition-colors duration-200 hover:bg-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
+        className,
+      )}
+    >
+      {session ? "Cerrar sesion" : "Iniciar sesion"}
+    </button>
+  );
+}
