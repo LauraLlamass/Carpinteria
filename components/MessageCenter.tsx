@@ -22,7 +22,21 @@ type Conversation = {
 const STORAGE_KEY = "carpinteria-conversations";
 const LEGACY_STORAGE_KEY = "carpinteria-message-thread";
 const ACTIVE_CHAT_KEY = "carpinteria-active-chat";
+const INITIAL_CREATED_AT = "2026-05-08T00:00:00.000Z";
 const EMPTY_MESSAGES: ChatMessage[] = [];
+const DEFAULT_CONVERSATION: Conversation = {
+  id: "conversation-1",
+  title: "Proyecto 1",
+  createdAt: INITIAL_CREATED_AT,
+  messages: [
+    {
+      id: "message-1",
+      author: "workshop",
+      body: "Estamos encantadas de ayudarle con su proyecto. Cuentenos por aquí y lo veremos desde el taller.",
+      createdAt: INITIAL_CREATED_AT,
+    },
+  ],
+};
 
 function createStarterMessage(createdAt: string): ChatMessage {
   return {
@@ -43,10 +57,6 @@ function createConversation(title: string, createdAt = new Date().toISOString())
 }
 
 function getInitialConversations() {
-  if (typeof window === "undefined") {
-    return [createConversation("Proyecto 1", "2026-05-08T00:00:00.000Z")];
-  }
-
   const savedConversations = window.localStorage.getItem(STORAGE_KEY);
 
   if (savedConversations) {
@@ -79,10 +89,6 @@ function getInitialConversations() {
 }
 
 function getInitialActiveChatId(conversations: Conversation[]) {
-  if (typeof window === "undefined") {
-    return conversations[0]?.id ?? "";
-  }
-
   const savedActiveChat = window.localStorage.getItem(ACTIVE_CHAT_KEY);
   const activeChatExists = conversations.some(
     (conversation) => conversation.id === savedActiveChat,
@@ -91,12 +97,19 @@ function getInitialActiveChatId(conversations: Conversation[]) {
   return activeChatExists ? savedActiveChat ?? "" : conversations[0]?.id ?? "";
 }
 
-function getInitialChatState() {
+function getSavedChatState() {
   const conversations = getInitialConversations();
 
   return {
     conversations,
     activeChatId: getInitialActiveChatId(conversations),
+  };
+}
+
+function getInitialChatState() {
+  return {
+    conversations: [DEFAULT_CONVERSATION],
+    activeChatId: DEFAULT_CONVERSATION.id,
   };
 }
 
@@ -128,6 +141,7 @@ export function MessageCenter() {
   const [body, setBody] = useState("");
   const [notice, setNotice] = useState("");
   const [isCopyOpen, setIsCopyOpen] = useState(false);
+  const [hasLoadedSavedChats, setHasLoadedSavedChats] = useState(false);
   const messageScrollRef = useRef<HTMLDivElement>(null);
 
   const { activeChatId, conversations } = chatState;
@@ -137,12 +151,37 @@ export function MessageCenter() {
   const messages = activeConversation?.messages ?? EMPTY_MESSAGES;
 
   useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(conversations));
-  }, [conversations]);
+    let isActive = true;
+
+    queueMicrotask(() => {
+      if (!isActive) {
+        return;
+      }
+
+      setChatState(getSavedChatState());
+      setHasLoadedSavedChats(true);
+    });
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
 
   useEffect(() => {
+    if (!hasLoadedSavedChats) {
+      return;
+    }
+
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(conversations));
+  }, [conversations, hasLoadedSavedChats]);
+
+  useEffect(() => {
+    if (!hasLoadedSavedChats) {
+      return;
+    }
+
     window.localStorage.setItem(ACTIVE_CHAT_KEY, activeChatId);
-  }, [activeChatId]);
+  }, [activeChatId, hasLoadedSavedChats]);
 
   useEffect(() => {
     const scrollElement = messageScrollRef.current;
@@ -156,7 +195,7 @@ export function MessageCenter() {
     const recipient = email.trim();
     const subject = `Copia de la conversacion: ${activeConversation?.title ?? "Proyecto"}`;
     const transcript = buildTranscript(messages);
-    const intro = "Hola,\n\nTe enviamos una copia de tu conversacion:\n\n";
+    const intro = "Hola,\n\nTe enviamos una copia de tu conversación:\n\n";
 
     return `mailto:${encodeURIComponent(recipient)}?subject=${encodeURIComponent(
       subject,
@@ -196,7 +235,7 @@ export function MessageCenter() {
       {
         id: crypto.randomUUID(),
         author: "workshop" as const,
-        body: "Mensaje recibido. Te responderemos aqui con la primera valoracion del taller.",
+        body: "Mensaje recibido. Te responderemos aquí con la primera valoración del taller.",
         createdAt: now,
       },
     ];
@@ -211,7 +250,7 @@ export function MessageCenter() {
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
       event.preventDefault();
-      setNotice("Escribe un email valido antes de enviar la copia.");
+      setNotice("Escribe un email válido antes de enviar la copia.");
     }
   }
 
@@ -236,7 +275,7 @@ export function MessageCenter() {
         conversations: [replacement],
         activeChatId: replacement.id,
       });
-      setNotice("Conversacion reiniciada.");
+      setNotice("Conversación reiniciada.");
       return;
     }
 
