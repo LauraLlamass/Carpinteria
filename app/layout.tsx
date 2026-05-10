@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Playfair_Display } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
+import { Providers } from "@/components/Providers";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -86,10 +88,13 @@ export default function RootLayout({
       className={`${geistSans.variable} ${display.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <Navbar />
-        <main className="flex-1 bg-background">{children}</main>
-        <Footer />
+        <Providers>
+          <Navbar />
+          <main className="flex-1 bg-background">{children}</main>
+          <Footer />
+        </Providers>
       </body>
+
     </html>
   );
 }
