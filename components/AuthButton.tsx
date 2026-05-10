@@ -1,6 +1,7 @@
 "use client";
 
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 
@@ -10,6 +11,7 @@ type AuthButtonProps = {
 };
 
 export function AuthButton({ className, onAction }: AuthButtonProps) {
+  const router = useRouter();
   const { data: session, status } = useSession();
 
   if (status === "loading") {
@@ -24,11 +26,11 @@ export function AuthButton({ className, onAction }: AuthButtonProps) {
     onAction?.();
 
     if (session) {
-      void signOut();
+      void signOut({ callbackUrl: "/" });
       return;
     }
 
-    void signIn("google");
+    router.push("/login");
   };
 
   return (

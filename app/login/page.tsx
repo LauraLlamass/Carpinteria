@@ -10,7 +10,8 @@ export default function LoginPage() {
             Iniciar sesion
           </h1>
           <p className="mt-3 text-sm leading-6 text-primary/70">
-            Accede con tu cuenta de Google para entrar al area privada.
+            Accede con tu email y contraseña o con tu cuenta de Google para
+            entrar al area privada.
           </p>
 
           <Suspense>
