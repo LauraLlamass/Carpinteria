@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, Mail, Plus, Send, Trash2 } from "lucide-react";
+import { Mail, Plus, Send, Trash2 } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -15,81 +15,180 @@ type ChatMessage = {
 type Conversation = {
   id: string;
   title: string;
+  clientEmail: string;
+  clientName: string;
   createdAt: string;
   messages: ChatMessage[];
 };
 
-const STORAGE_KEY = "carpinteria-conversations";
-const LEGACY_STORAGE_KEY = "carpinteria-message-thread";
+type MessageCenterProps = {
+  isOwner?: boolean;
+  userEmail?: string | null;
+  userName?: string | null;
+};
+
+type ConversationStore = Record<string, Conversation[]>;
+
+const GLOBAL_STORAGE_KEY = "carpinteria-conversations-by-user";
 const ACTIVE_CHAT_KEY = "carpinteria-active-chat";
+const LEGACY_STORAGE_KEY = "carpinteria-conversations";
+const LEGACY_THREAD_KEY = "carpinteria-message-thread";
 const INITIAL_CREATED_AT = "2026-05-08T00:00:00.000Z";
 const EMPTY_MESSAGES: ChatMessage[] = [];
-const DEFAULT_CONVERSATION: Conversation = {
-  id: "conversation-1",
-  title: "Proyecto 1",
-  createdAt: INITIAL_CREATED_AT,
-  messages: [
-    {
-      id: "message-1",
-      author: "workshop",
-      body: "Estamos encantadas de ayudarle con su proyecto. Cuentenos por aquí y lo veremos desde el taller.",
-      createdAt: INITIAL_CREATED_AT,
-    },
-  ],
-};
+
+function normalizeEmail(email?: string | null) {
+  return (email ?? "invitado@local").trim().toLowerCase();
+}
+
+function getDisplayName(name?: string | null, email?: string | null) {
+  return name?.trim() || email || "Cliente";
+}
 
 function createStarterMessage(createdAt: string): ChatMessage {
   return {
     id: crypto.randomUUID(),
     author: "workshop",
-    body: "Estamos encantadas de ayudarle con su proyecto. Cuentenos por aquí y lo veremos desde el taller.",
+    body: "Estamos encantadas de ayudarle con su proyecto. Cuentenos por aqui y lo veremos desde el taller.",
     createdAt,
   };
 }
 
-function createConversation(title: string, createdAt = new Date().toISOString()) {
+function createConversation({
+  title,
+  clientEmail,
+  clientName,
+  createdAt = new Date().toISOString(),
+}: {
+  title: string;
+  clientEmail: string;
+  clientName: string;
+  createdAt?: string;
+}): Conversation {
   return {
     id: crypto.randomUUID(),
     title,
+    clientEmail,
+    clientName,
     createdAt,
     messages: [createStarterMessage(createdAt)],
   };
 }
 
-function getInitialConversations() {
-  const savedConversations = window.localStorage.getItem(STORAGE_KEY);
+function getFallbackConversation(userEmail: string, userName: string) {
+  return createConversation({
+    title: "Proyecto 1",
+    clientEmail: userEmail,
+    clientName: userName,
+    createdAt: INITIAL_CREATED_AT,
+  });
+}
+
+function readConversationStore() {
+  const savedStore = window.localStorage.getItem(GLOBAL_STORAGE_KEY);
+
+  if (!savedStore) {
+    return {};
+  }
+
+  try {
+    return JSON.parse(savedStore) as ConversationStore;
+  } catch {
+    return {};
+  }
+}
+
+function writeConversationStore(store: ConversationStore) {
+  window.localStorage.setItem(GLOBAL_STORAGE_KEY, JSON.stringify(store));
+}
+
+function migrateLegacyConversations(userEmail: string, userName: string) {
+  const savedConversations = window.localStorage.getItem(LEGACY_STORAGE_KEY);
 
   if (savedConversations) {
     try {
-      return JSON.parse(savedConversations) as Conversation[];
+      const legacyConversations = JSON.parse(savedConversations) as Array<
+        Partial<Conversation>
+      >;
+
+      return legacyConversations.map((conversation, index) => ({
+        id: conversation.id ?? crypto.randomUUID(),
+        title: conversation.title ?? `Proyecto ${index + 1}`,
+        clientEmail: userEmail,
+        clientName: userName,
+        createdAt: conversation.createdAt ?? new Date().toISOString(),
+        messages: conversation.messages ?? [],
+      }));
     } catch {
-      return [createConversation("Proyecto 1")];
+      return [getFallbackConversation(userEmail, userName)];
     }
   }
 
-  const legacyThread = window.localStorage.getItem(LEGACY_STORAGE_KEY);
+  const legacyThread = window.localStorage.getItem(LEGACY_THREAD_KEY);
 
   if (legacyThread) {
     try {
       const messages = JSON.parse(legacyThread) as ChatMessage[];
+
       return [
         {
           id: crypto.randomUUID(),
           title: "Proyecto 1",
+          clientEmail: userEmail,
+          clientName: userName,
           createdAt: messages[0]?.createdAt ?? new Date().toISOString(),
           messages,
         },
       ];
     } catch {
-      return [createConversation("Proyecto 1")];
+      return [getFallbackConversation(userEmail, userName)];
     }
   }
 
-  return [createConversation("Proyecto 1")];
+  return [getFallbackConversation(userEmail, userName)];
 }
 
-function getInitialActiveChatId(conversations: Conversation[]) {
-  const savedActiveChat = window.localStorage.getItem(ACTIVE_CHAT_KEY);
+function getConversationsForUser(userEmail: string, userName: string) {
+  const store = readConversationStore();
+  const savedConversations = store[userEmail];
+
+  if (savedConversations?.length) {
+    return savedConversations;
+  }
+
+  const migratedConversations = migrateLegacyConversations(userEmail, userName);
+  writeConversationStore({
+    ...store,
+    [userEmail]: migratedConversations,
+  });
+
+  return migratedConversations;
+}
+
+function getOwnerConversations() {
+  const store = readConversationStore();
+
+  return Object.values(store)
+    .flat()
+    .sort((first, second) => {
+      const firstDate = getLastMessage(first)?.createdAt ?? first.createdAt;
+      const secondDate = getLastMessage(second)?.createdAt ?? second.createdAt;
+
+      return new Date(secondDate).getTime() - new Date(firstDate).getTime();
+    });
+}
+
+function getActiveChatKey(userEmail: string, isOwner: boolean) {
+  return `${ACTIVE_CHAT_KEY}:${isOwner ? "owner" : userEmail}`;
+}
+
+function getInitialActiveChatId(
+  conversations: Conversation[],
+  userEmail: string,
+  isOwner: boolean,
+) {
+  const savedActiveChat = window.localStorage.getItem(
+    getActiveChatKey(userEmail, isOwner),
+  );
   const activeChatExists = conversations.some(
     (conversation) => conversation.id === savedActiveChat,
   );
@@ -97,19 +196,27 @@ function getInitialActiveChatId(conversations: Conversation[]) {
   return activeChatExists ? savedActiveChat ?? "" : conversations[0]?.id ?? "";
 }
 
-function getSavedChatState() {
-  const conversations = getInitialConversations();
+function getInitialChatState(
+  userEmail: string,
+  userName: string,
+  isOwner: boolean,
+) {
+  const conversations = isOwner
+    ? getOwnerConversations()
+    : getConversationsForUser(userEmail, userName);
 
   return {
     conversations,
-    activeChatId: getInitialActiveChatId(conversations),
+    activeChatId: getInitialActiveChatId(conversations, userEmail, isOwner),
   };
 }
 
-function getInitialChatState() {
+function getServerSafeChatState(userEmail: string, userName: string) {
+  const fallbackConversation = getFallbackConversation(userEmail, userName);
+
   return {
-    conversations: [DEFAULT_CONVERSATION],
-    activeChatId: DEFAULT_CONVERSATION.id,
+    conversations: [fallbackConversation],
+    activeChatId: fallbackConversation.id,
   };
 }
 
@@ -135,12 +242,58 @@ function getLastMessage(conversation: Conversation) {
   return conversation.messages[conversation.messages.length - 1];
 }
 
-export function MessageCenter() {
-  const [chatState, setChatState] = useState(getInitialChatState);
-  const [email, setEmail] = useState("");
+function saveClientConversations(userEmail: string, conversations: Conversation[]) {
+  const store = readConversationStore();
+
+  writeConversationStore({
+    ...store,
+    [userEmail]: conversations,
+  });
+}
+
+function saveOwnerConversation(updatedConversation: Conversation) {
+  const store = readConversationStore();
+  const clientEmail = normalizeEmail(updatedConversation.clientEmail);
+  const clientConversations = store[clientEmail] ?? [];
+  const nextConversations = clientConversations.map((conversation) =>
+    conversation.id === updatedConversation.id ? updatedConversation : conversation,
+  );
+  const conversationExists = nextConversations.some(
+    (conversation) => conversation.id === updatedConversation.id,
+  );
+
+  writeConversationStore({
+    ...store,
+    [clientEmail]: conversationExists
+      ? nextConversations
+      : [updatedConversation, ...clientConversations],
+  });
+}
+
+function deleteConversationFromStore(conversationToDelete: Conversation) {
+  const store = readConversationStore();
+  const clientEmail = normalizeEmail(conversationToDelete.clientEmail);
+
+  writeConversationStore({
+    ...store,
+    [clientEmail]: (store[clientEmail] ?? []).filter(
+      (conversation) => conversation.id !== conversationToDelete.id,
+    ),
+  });
+}
+
+export function MessageCenter({
+  isOwner = false,
+  userEmail: userEmailProp,
+  userName: userNameProp,
+}: MessageCenterProps) {
+  const userEmail = normalizeEmail(userEmailProp);
+  const userName = getDisplayName(userNameProp, userEmailProp);
+  const [chatState, setChatState] = useState(() =>
+    getServerSafeChatState(userEmail, userName),
+  );
   const [body, setBody] = useState("");
   const [notice, setNotice] = useState("");
-  const [isCopyOpen, setIsCopyOpen] = useState(false);
   const [hasLoadedSavedChats, setHasLoadedSavedChats] = useState(false);
   const messageScrollRef = useRef<HTMLDivElement>(null);
 
@@ -149,6 +302,7 @@ export function MessageCenter() {
     conversations.find((conversation) => conversation.id === activeChatId) ??
     conversations[0];
   const messages = activeConversation?.messages ?? EMPTY_MESSAGES;
+  const hasConversations = conversations.length > 0;
 
   useEffect(() => {
     let isActive = true;
@@ -158,30 +312,35 @@ export function MessageCenter() {
         return;
       }
 
-      setChatState(getSavedChatState());
+      setChatState(getInitialChatState(userEmail, userName, isOwner));
       setHasLoadedSavedChats(true);
     });
 
     return () => {
       isActive = false;
     };
-  }, []);
+  }, [isOwner, userEmail, userName]);
 
   useEffect(() => {
     if (!hasLoadedSavedChats) {
       return;
     }
 
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(conversations));
-  }, [conversations, hasLoadedSavedChats]);
+    if (!isOwner) {
+      saveClientConversations(userEmail, conversations);
+    }
+  }, [conversations, hasLoadedSavedChats, isOwner, userEmail]);
 
   useEffect(() => {
     if (!hasLoadedSavedChats) {
       return;
     }
 
-    window.localStorage.setItem(ACTIVE_CHAT_KEY, activeChatId);
-  }, [activeChatId, hasLoadedSavedChats]);
+    window.localStorage.setItem(
+      getActiveChatKey(userEmail, isOwner),
+      activeChatId,
+    );
+  }, [activeChatId, hasLoadedSavedChats, isOwner, userEmail]);
 
   useEffect(() => {
     const scrollElement = messageScrollRef.current;
@@ -192,22 +351,39 @@ export function MessageCenter() {
   }, [activeChatId, messages.length]);
 
   const mailtoHref = useMemo(() => {
-    const recipient = email.trim();
-    const subject = `Copia de la conversacion: ${activeConversation?.title ?? "Proyecto"}`;
+    const recipient = isOwner
+      ? activeConversation?.clientEmail ?? ""
+      : userEmail;
+    const subject = `Copia de la conversacion: ${
+      activeConversation?.title ?? "Proyecto"
+    }`;
     const transcript = buildTranscript(messages);
-    const intro = "Hola,\n\nTe enviamos una copia de tu conversación:\n\n";
+    const intro = "Hola,\n\nTe enviamos una copia de tu conversacion:\n\n";
 
     return `mailto:${encodeURIComponent(recipient)}?subject=${encodeURIComponent(
       subject,
     )}&body=${encodeURIComponent(`${intro}${transcript}`)}`;
-  }, [activeConversation?.title, email, messages]);
+  }, [activeConversation?.clientEmail, activeConversation?.title, isOwner, messages, userEmail]);
 
   function updateActiveConversation(messagesForChat: ChatMessage[]) {
+    if (!activeConversation) {
+      return;
+    }
+
+    const updatedConversation = {
+      ...activeConversation,
+      messages: messagesForChat,
+    };
+
+    if (isOwner) {
+      saveOwnerConversation(updatedConversation);
+    }
+
     setChatState((current) => ({
       ...current,
       conversations: current.conversations.map((conversation) =>
         conversation.id === current.activeChatId
-          ? { ...conversation, messages: messagesForChat }
+          ? updatedConversation
           : conversation,
       ),
     }));
@@ -215,6 +391,11 @@ export function MessageCenter() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!activeConversation) {
+      setNotice("No hay ninguna conversacion abierta.");
+      return;
+    }
 
     const trimmedBody = body.trim();
 
@@ -228,36 +409,23 @@ export function MessageCenter() {
       ...messages,
       {
         id: crypto.randomUUID(),
-        author: "client" as const,
+        author: isOwner ? ("workshop" as const) : ("client" as const),
         body: trimmedBody,
-        createdAt: now,
-      },
-      {
-        id: crypto.randomUUID(),
-        author: "workshop" as const,
-        body: "Mensaje recibido. Te responderemos aquí con la primera valoración del taller.",
         createdAt: now,
       },
     ];
 
     updateActiveConversation(nextMessages);
     setBody("");
-    setNotice("");
-  }
-
-  function handleCopyClick(event: React.MouseEvent<HTMLAnchorElement>) {
-    const trimmedEmail = email.trim();
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
-      event.preventDefault();
-      setNotice("Escribe un email válido antes de enviar la copia.");
-    }
+    setNotice(isOwner ? "Respuesta enviada." : "Mensaje enviado al taller.");
   }
 
   function createNewChat() {
-    const nextConversation = createConversation(
-      `Proyecto ${conversations.length + 1}`,
-    );
+    const nextConversation = createConversation({
+      title: `Proyecto ${conversations.length + 1}`,
+      clientEmail: userEmail,
+      clientName: userName,
+    });
 
     setChatState((current) => ({
       conversations: [nextConversation, ...current.conversations],
@@ -265,17 +433,38 @@ export function MessageCenter() {
     }));
     setBody("");
     setNotice("");
-    setIsCopyOpen(false);
   }
 
   function deleteActiveChat() {
+    if (!activeConversation) {
+      return;
+    }
+
+    if (isOwner) {
+      deleteConversationFromStore(activeConversation);
+      const remainingConversations = conversations.filter(
+        (conversation) => conversation.id !== activeChatId,
+      );
+
+      setChatState({
+        conversations: remainingConversations,
+        activeChatId: remainingConversations[0]?.id ?? "",
+      });
+      setNotice("Chat eliminado de la bandeja.");
+      return;
+    }
+
     if (conversations.length === 1) {
-      const replacement = createConversation("Proyecto 1");
+      const replacement = createConversation({
+        title: "Proyecto 1",
+        clientEmail: userEmail,
+        clientName: userName,
+      });
       setChatState({
         conversations: [replacement],
         activeChatId: replacement.id,
       });
-      setNotice("Conversación reiniciada.");
+      setNotice("Conversacion reiniciada.");
       return;
     }
 
@@ -295,29 +484,32 @@ export function MessageCenter() {
       <aside className="flex min-h-0 flex-col rounded-lg border border-background bg-surface p-3">
         <div className="mb-3 flex items-center justify-between gap-2">
           <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
-            Tus mensajes
+            {isOwner ? "Bandeja" : "Tus mensajes"}
           </h2>
           <button
             type="button"
             aria-label="Eliminar chat abierto"
             onClick={deleteActiveChat}
-            className="inline-flex size-8 items-center justify-center rounded-full text-primary transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            disabled={!hasConversations}
+            className="inline-flex size-8 items-center justify-center rounded-full text-primary transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:pointer-events-none disabled:opacity-40"
           >
             <Trash2 className="size-4" />
           </button>
         </div>
 
-        <button
-          type="button"
-          onClick={createNewChat}
-          className={buttonVariants({
-            variant: "secondary",
-            className: "mb-3 w-full rounded-full",
-          })}
-        >
-          <Plus className="size-4" />
-          Chat nuevo
-        </button>
+        {!isOwner ? (
+          <button
+            type="button"
+            onClick={createNewChat}
+            className={buttonVariants({
+              variant: "secondary",
+              className: "mb-3 w-full rounded-full",
+            })}
+          >
+            <Plus className="size-4" />
+            Chat nuevo
+          </button>
+        ) : null}
 
         <div className="grid min-h-0 flex-1 content-start gap-3 overflow-y-auto pr-1">
           {conversations.map((conversation) => {
@@ -343,8 +535,13 @@ export function MessageCenter() {
                 )}
               >
                 <span className="block font-semibold">
-                  {conversation.title}
+                  {isOwner ? conversation.clientName : conversation.title}
                 </span>
+                {isOwner ? (
+                  <span className="mt-1 block truncate text-muted-foreground">
+                    {conversation.clientEmail}
+                  </span>
+                ) : null}
                 <time
                   className="mt-1 block text-muted-foreground"
                   dateTime={lastMessage?.createdAt ?? conversation.createdAt}
@@ -357,6 +554,12 @@ export function MessageCenter() {
               </button>
             );
           })}
+
+          {!hasConversations ? (
+            <p className="rounded-md border border-background bg-background px-3 py-4 text-sm leading-6 text-primary/70">
+              Todavia no hay mensajes de clientes.
+            </p>
+          ) : null}
         </div>
       </aside>
 
@@ -364,57 +567,32 @@ export function MessageCenter() {
         <div className="relative flex items-center justify-between gap-4 border-b border-secondary px-4 py-3">
           <div>
             <h2 className="font-serif text-2xl font-semibold leading-none text-primary">
-              {activeConversation?.title ?? "Chat abierto"}
+              {activeConversation
+                ? isOwner
+                  ? activeConversation.clientName
+                  : activeConversation.title
+                : "Sin conversacion"}
             </h2>
             <p className="mt-1 text-xs text-muted-foreground">
-              Taller conectado
+              {activeConversation
+                ? isOwner
+                  ? activeConversation.clientEmail
+                  : "Taller conectado"
+                : "Esperando mensajes"}
             </p>
           </div>
 
-          <button
-            type="button"
-            aria-expanded={isCopyOpen}
-            onClick={() => setIsCopyOpen((current) => !current)}
+          <a
+            href={activeConversation ? mailtoHref : undefined}
+            aria-disabled={!activeConversation}
             className={buttonVariants({
               variant: "outline",
               className: "rounded-full px-4",
             })}
           >
             <Mail className="size-4" />
-            Copia
-            <ChevronDown className="size-4" />
-          </button>
-
-          {isCopyOpen ? (
-            <div className="absolute right-4 top-14 z-20 grid w-80 gap-3 rounded-lg border border-background bg-surface p-4 shadow-xl">
-              <label
-                className="text-sm font-medium text-primary"
-                htmlFor="email"
-              >
-                Email para copia
-              </label>
-              <input
-                id="email"
-                name="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                className="w-full rounded-lg border border-background bg-background px-4 py-3 text-primary outline-none focus:ring-2 focus:ring-accent"
-                placeholder="tu@email.com"
-                type="email"
-              />
-              <a
-                href={mailtoHref}
-                aria-disabled={!email.trim()}
-                onClick={handleCopyClick}
-                className={buttonVariants({
-                  className: "rounded-full px-5 !text-surface",
-                })}
-              >
-                <Mail className="size-4" />
-                Enviar copia de la conversacion
-              </a>
-            </div>
-          ) : null}
+            Enviar copia
+          </a>
         </div>
 
         <div
@@ -422,30 +600,34 @@ export function MessageCenter() {
           className="min-h-0 flex-1 overflow-y-auto bg-background px-4 py-5"
         >
           <div className="flex min-h-full flex-col justify-end gap-3">
-            {messages.map((message) => (
-              <article
-                key={message.id}
-                className={cn(
-                  "max-w-[78%] rounded-2xl px-4 py-2.5 text-sm leading-6 shadow-sm",
-                  message.author === "client"
-                    ? "ml-auto rounded-br-sm bg-primary text-surface"
-                    : "mr-auto rounded-bl-sm border border-secondary bg-background text-primary",
-                )}
-              >
-                <p>{message.body}</p>
-                <time
+            {messages.map((message) => {
+              const isOwnMessage = isOwner
+                ? message.author === "workshop"
+                : message.author === "client";
+
+              return (
+                <article
+                  key={message.id}
                   className={cn(
-                    "mt-1 block text-right text-[0.7rem]",
-                    message.author === "client"
-                      ? "text-surface"
-                      : "text-muted-foreground",
+                    "max-w-[78%] rounded-2xl px-4 py-2.5 text-sm leading-6 shadow-sm",
+                    isOwnMessage
+                      ? "ml-auto rounded-br-sm bg-primary text-surface"
+                      : "mr-auto rounded-bl-sm border border-secondary bg-background text-primary",
                   )}
-                  dateTime={message.createdAt}
                 >
-                  {formatDate(message.createdAt)}
-                </time>
-              </article>
-            ))}
+                  <p>{message.body}</p>
+                  <time
+                    className={cn(
+                      "mt-1 block text-right text-[0.7rem]",
+                      isOwnMessage ? "text-surface" : "text-muted-foreground",
+                    )}
+                    dateTime={message.createdAt}
+                  >
+                    {formatDate(message.createdAt)}
+                  </time>
+                </article>
+              );
+            })}
 
             {notice ? (
               <p className="mx-auto rounded-full bg-secondary px-4 py-2 text-xs text-primary">
@@ -467,6 +649,7 @@ export function MessageCenter() {
             name="message"
             value={body}
             rows={1}
+            disabled={!activeConversation}
             onChange={(event) => setBody(event.target.value)}
             onKeyDown={(event) => {
               if (event.key === "Enter" && !event.shiftKey) {
@@ -474,12 +657,15 @@ export function MessageCenter() {
                 event.currentTarget.form?.requestSubmit();
               }
             }}
-            className="max-h-32 min-h-11 flex-1 resize-none rounded-full border border-background bg-background px-4 py-2.5 text-primary outline-none focus:ring-2 focus:ring-accent"
-            placeholder="Escribe un mensaje"
+            className="max-h-32 min-h-11 flex-1 resize-none rounded-full border border-background bg-background px-4 py-2.5 text-primary outline-none focus:ring-2 focus:ring-accent disabled:opacity-50"
+            placeholder={
+              isOwner ? "Responder al cliente" : "Escribe un mensaje"
+            }
           />
           <button
             type="submit"
             aria-label="Enviar mensaje"
+            disabled={!activeConversation}
             className={buttonVariants({
               size: "icon-lg",
               className: "rounded-full",
