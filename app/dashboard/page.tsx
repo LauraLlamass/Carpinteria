@@ -21,12 +21,9 @@ export default async function DashboardPage() {
     <section className="bg-background px-6 py-20">
       <div className="mx-auto max-w-6xl">
         <h1 className="font-serif text-4xl font-semibold text-primary">
-          Bienvenida, {userName}
+          Bienvenida/o, {userName}
         </h1>
-        <p className="mt-4 max-w-2xl text-primary/70">
-          Esta es el area privada. La sesion se esta leyendo desde el servidor
-          con NextAuth antes de renderizar esta pagina.
-        </p>
+        
 
         <article className="mt-10 max-w-xl rounded-lg border border-background bg-surface p-6 text-primary">
           <div className="flex items-center gap-4">

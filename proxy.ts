@@ -20,7 +20,7 @@ function applySecurityHeaders(response: NextResponse) {
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname.startsWith("/dashboard")) {
+  if (pathname.startsWith("/dashboard") || pathname.startsWith("/mensajes")) {
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET,
