@@ -64,7 +64,7 @@ export default function AboutPage() {
                 para una pared irregular, un armario que debía aprovechar hasta
                 el último centímetro. Cada proyecto nos enseñó a escuchar antes
                 de dibujar y a medir dos veces antes de cortar. Esa mezcla de 
-                <strong>paciencia</strong>, <strong>técnica</strong> y <strong>cercanía </strong>  
+                 <strong> paciencia</strong>, <strong>técnica</strong> y <strong>cercanía </strong>  
                  se convirtió pronto en la identidad del taller.
               </p>
 
