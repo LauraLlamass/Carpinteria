@@ -51,7 +51,7 @@ export default function AboutPage() {
                 alquilar un pequeño local para probar una intuición que
                 llevábamos tiempo compartiendo. Somos <strong>Ana y Marina</strong>, amigas
                 desde la escuela de diseño. Una venía del mundo de la 
-                <strong>restauración de piezas antiguas</strong>; la otra, del <strong>diseño de
+                <strong> restauración de piezas antiguas</strong>; la otra, del <strong>diseño de
                 interiores y la planificación de espacios</strong>. Las dos sentíamos que
                 muchos hogares necesitaban algo más que muebles bonitos:
                 necesitaban soluciones pensadas para encajar con la forma real
@@ -64,7 +64,7 @@ export default function AboutPage() {
                 para una pared irregular, un armario que debía aprovechar hasta
                 el último centímetro. Cada proyecto nos enseñó a escuchar antes
                 de dibujar y a medir dos veces antes de cortar. Esa mezcla de 
-                <strong>paciencia</strong>, <strong>técnica</strong> y <strong>cercanía</strong> 
+                <strong>paciencia</strong>, <strong>técnica</strong> y <strong>cercanía </strong>  
                  se convirtió pronto en la identidad del taller.
               </p>
 
