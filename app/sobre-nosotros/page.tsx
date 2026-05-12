@@ -50,7 +50,7 @@ export default function AboutPage() {
                 Nuestra historia empezó hace cinco años, cuando decidimos
                 alquilar un pequeño local para probar una intuición que
                 llevábamos tiempo compartiendo. Somos <strong>Ana y Marina</strong>, amigas
-                desde la escuela de diseño. Una venía del mundo de la
+                desde la escuela de diseño. Una venía del mundo de la 
                 <strong>restauración de piezas antiguas</strong>; la otra, del <strong>diseño de
                 interiores y la planificación de espacios</strong>. Las dos sentíamos que
                 muchos hogares necesitaban algo más que muebles bonitos:
@@ -63,15 +63,15 @@ export default function AboutPage() {
                 heredada que pedía una segunda vida, una estantería imposible
                 para una pared irregular, un armario que debía aprovechar hasta
                 el último centímetro. Cada proyecto nos enseñó a escuchar antes
-                de dibujar y a medir dos veces antes de cortar. Esa mezcla de
+                de dibujar y a medir dos veces antes de cortar. Esa mezcla de 
                 <strong>paciencia</strong>, <strong>técnica</strong> y <strong>cercanía</strong> 
-                se convirtió pronto en la identidad del taller.
+                 se convirtió pronto en la identidad del taller.
               </p>
 
               <p>
                 Con el tiempo, el boca a boca hizo su parte. Llegaron cocinas
-                completas, reformas de lofts, muebles para estudios creativos y
-                piezas especiales para viviendas familiares. Lo que había nacido
+                completas, reformas de lofts, muebles para <strong>estudios creativos y
+                piezas especiales para viviendas familiares</strong>. Lo que había nacido
                 como un taller de barrio empezó a recibir encargos desde otras
                 ciudades. Cinco años después, hemos <strong>ampliado el equipo</strong>, 
                 afinado los procesos y estamos creciendo por toda España sin
