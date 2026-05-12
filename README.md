@@ -9,7 +9,7 @@ Descripción breve
 
 | Despliegue | URL |
 |------------|-----|
-| Frontend | [Vercel](https://www.corner-estudios.com) |
+| Frontend | [Vercel](https://carpinteria-six.vercel.app) |
 
 ---
 
