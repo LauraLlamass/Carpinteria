@@ -354,11 +354,11 @@ export function MessageCenter({
     const recipient = isOwner
       ? activeConversation?.clientEmail ?? ""
       : userEmail;
-    const subject = `Copia de la conversacion: ${
+    const subject = `Copia de la conversación: ${
       activeConversation?.title ?? "Proyecto"
     }`;
     const transcript = buildTranscript(messages);
-    const intro = "Hola,\n\nTe enviamos una copia de tu conversacion:\n\n";
+    const intro = "Hola,\n\nTe enviamos una copia de tu conversación:\n\n";
 
     return `mailto:${encodeURIComponent(recipient)}?subject=${encodeURIComponent(
       subject,
@@ -393,7 +393,7 @@ export function MessageCenter({
     event.preventDefault();
 
     if (!activeConversation) {
-      setNotice("No hay ninguna conversacion abierta.");
+      setNotice("No hay ninguna conversación abierta.");
       return;
     }
 
@@ -464,7 +464,7 @@ export function MessageCenter({
         conversations: [replacement],
         activeChatId: replacement.id,
       });
-      setNotice("Conversacion reiniciada.");
+      setNotice("conversación reiniciada.");
       return;
     }
 
@@ -571,7 +571,7 @@ export function MessageCenter({
                 ? isOwner
                   ? activeConversation.clientName
                   : activeConversation.title
-                : "Sin conversacion"}
+                : "Sin conversación"}
             </h2>
             <p className="mt-1 text-xs text-muted-foreground">
               {activeConversation

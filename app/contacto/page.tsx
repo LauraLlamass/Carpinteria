@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Contacto para proyectos de carpinteria",
     description:
-      "Comparte medidas, materiales e idea inicial en una conversacion interna con copia opcional por email.",
+      "Comparte medidas, materiales e idea inicial en una conversación interna con copia opcional por email.",
     url: "/contacto",
   },
 };
