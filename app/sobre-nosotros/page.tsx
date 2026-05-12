@@ -49,23 +49,23 @@ export default function AboutPage() {
               <p>
                 Nuestra historia empezó hace cinco años, cuando decidimos
                 alquilar un pequeño local para probar una intuición que
-                llevábamos tiempo compartiendo. Somos Ana y Marina, amigas
+                llevábamos tiempo compartiendo. Somos <strong>Ana y Marina</strong>, amigas
                 desde la escuela de diseño. Una venía del mundo de la
-                restauración de piezas antiguas; la otra, del diseño de
-                interiores y la planificación de espacios. Las dos sentíamos que
+                <strong>restauración de piezas antiguas</strong>; la otra, del <strong>diseño de
+                interiores y la planificación de espacios</strong>. Las dos sentíamos que
                 muchos hogares necesitaban algo más que muebles bonitos:
                 necesitaban soluciones pensadas para encajar con la forma real
                 de vivir.
               </p>
 
               <p>
-                Al principio trabajábamos con encargos modestos: una mesa
+                Al principio trabajábamos con <strong>encargos modestos</strong>: una mesa
                 heredada que pedía una segunda vida, una estantería imposible
                 para una pared irregular, un armario que debía aprovechar hasta
                 el último centímetro. Cada proyecto nos enseñó a escuchar antes
                 de dibujar y a medir dos veces antes de cortar. Esa mezcla de
-                paciencia, técnica y cercanía se convirtió pronto en la
-                identidad del taller.
+                <strong>paciencia</strong>, <strong>técnica</strong> y <strong>cercanía</strong> 
+                se convirtió pronto en la identidad del taller.
               </p>
 
               <p>
@@ -73,7 +73,7 @@ export default function AboutPage() {
                 completas, reformas de lofts, muebles para estudios creativos y
                 piezas especiales para viviendas familiares. Lo que había nacido
                 como un taller de barrio empezó a recibir encargos desde otras
-                ciudades. Cinco años después, hemos ampliado el equipo, hemos
+                ciudades. Cinco años después, hemos <strong>ampliado el equipo</strong>, 
                 afinado los procesos y estamos creciendo por toda España sin
                 perder la misma filosofía inicial: cada pieza la pensamos desde
                 el espacio, el material y la persona que va a usarla.
@@ -98,8 +98,8 @@ export default function AboutPage() {
             Proceso artesanal
           </h2>
           <p className="mt-4 max-w-4xl text-sm leading-7 text-muted-foreground">
-            Cada encargo lo empezamos leyendo el espacio, proponiendo
-            materiales, dibujando un plano técnico y fabricando con cuidado en
+            Cada encargo lo empezamos <strong>leyendo el espacio, proponiendo
+            materiales, dibujando un plano técnico y fabricando con cuidado</strong> en
             taller. No se trata solo de producir una pieza, sino de resolver un
             uso: abrir mejor una cocina, ordenar una habitación, recuperar un
             mueble familiar o dar carácter a una estancia.
