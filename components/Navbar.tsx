@@ -13,8 +13,6 @@ const navItems = [
   { href: "/servicios", label: "Servicios" },
   { href: "/sobre-nosotros", label: "Taller" },
   { href: "/proyectos", label: "Obra" },
-  { href: "/mensajes", label: "Mensajes" },
-  { href: "/dashboard", label: "Mi perfil" },
 ];
 
 function isActivePath(pathname: string, href: string) {

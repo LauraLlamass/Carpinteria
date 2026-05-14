@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
@@ -25,12 +25,7 @@ export function AuthButton({ className, onAction }: AuthButtonProps) {
   const handleClick = () => {
     onAction?.();
 
-    if (session) {
-      void signOut({ callbackUrl: "/" });
-      return;
-    }
-
-    router.push("/login");
+    router.push(session ? "/dashboard" : "/login");
   };
 
   return (
@@ -42,7 +37,7 @@ export function AuthButton({ className, onAction }: AuthButtonProps) {
         className,
       )}
     >
-      {session ? "Cerrar sesion" : "Iniciar sesion"}
+      {session ? "Mi perfil" : "Iniciar sesion"}
     </button>
   );
 }
