@@ -1,0 +1,42 @@
+import { NextResponse } from "next/server";
+import { z } from "zod";
+import { db } from "@/lib/db";
+
+const updateStockSchema = z.object({
+  stock: z.number().int().min(0, "El stock no puede ser negativo"),
+});
+
+type ProductStockRouteContext = {
+  params: Promise<{ id: string }>;
+};
+
+export async function PATCH(
+  request: Request,
+  { params }: ProductStockRouteContext,
+) {
+  const { id } = await params;
+  const body = await request.json();
+  const result = updateStockSchema.safeParse(body);
+
+  if (!result.success) {
+    return NextResponse.json(
+      { error: "Datos invalidos", details: result.error.flatten().fieldErrors },
+      { status: 400 },
+    );
+  }
+
+  try {
+    const product = await db.product.update({
+      where: { id },
+      data: { stock: result.data.stock },
+      include: { category: { select: { id: true, name: true } } },
+    });
+
+    return NextResponse.json(product);
+  } catch {
+    return NextResponse.json(
+      { error: "Producto no encontrado" },
+      { status: 404 },
+    );
+  }
+}

@@ -7,7 +7,6 @@ const updateProductSchema = z
     name: z.string().min(1).max(100).optional(),
     description: z.string().optional().nullable(),
     price: z.number().positive("El precio debe ser positivo").optional(),
-    stock: z.number().int().min(0, "El stock no puede ser negativo").optional(),
     categoryId: z.string().cuid("El ID de categoria no es valido").optional(),
   })
   .refine((data) => Object.keys(data).length > 0, {
